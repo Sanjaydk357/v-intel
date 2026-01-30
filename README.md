@@ -104,6 +104,3 @@ This tool is intended for **educational purposes only**.
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-
-[MIT License](LICENSE)
