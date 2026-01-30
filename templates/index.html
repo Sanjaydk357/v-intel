@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>V-Intel | Traffic Enforcement Portal</title>
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="brand">
+                <i class="fa-solid fa-shield-halved"></i> V-INTEL
+            </div>
+            <div class="user-info">Traffic Enforcement Directorate</div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        
+        <!-- Search Section -->
+        <div class="card search-card">
+            <form method="POST" action="/" enctype="multipart/form-data" class="search-form">
+                <div class="form-group">
+                    <label>Vehicle Number / ವಾಹನ ಸಂಖ್ಯೆ</label>
+                    <input type="text" name="vehicle_number" placeholder="KA01AB1234" value="{{ vehicle_number if vehicle_number else '' }}">
+                </div>
+                <div class="form-divider">OR</div>
+                <div class="form-group file-group">
+                    <label>Upload Image</label>
+                    <input type="file" name="vehicle_image" accept="image/*">
+                </div>
+                <button type="submit" class="search-btn"><i class="fa-solid fa-search"></i> Search / ಹುಡುಕಿ</button>
+            </form>
+        </div>
+
+        <!-- Vehicle Details Grid -->
+        {% if vehicle_details %}
+        <div class="card">
+            <div class="card-header">
+                <h3>Vehicle Details</h3>
+            </div>
+            <div class="details-grid">
+                {% for line in vehicle_details %}
+                    {% if ':' in line %}
+                        {% set parts = line.split(':', 1) %}
+                        <div class="detail-item">
+                            <span class="detail-label">{{ parts[0] }}</span>
+                            <span class="detail-value">{{ parts[1] }}</span>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Violation Table -->
+        {% if challan_entries %}
+        <div class="card">
+            <div class="card-header table-header">
+                <h3>Traffic Violations</h3>
+                {% if total_fine_amount %}
+                    <div class="total-fine">Total Fine: ₹{{ total_fine_amount }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="table-wrapper">
+                <table class="violation-table">
+                    <thead>
+                        <tr>
+                            <th>Sl No.</th>
+                            <th>Reg. No.</th>
+                            <th>Notice No.</th>
+                            <th>Notice Date</th>
+                            <th>Fine Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in challan_entries %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td style="text-transform: uppercase;">{{ entry['REGISTRATION_NUMBER'] }}</td>
+                            <td>{{ entry['NOTICE_NUMBER'] }}</td>
+                            <td>
+                                {{ entry['VIOLATION_DATE'] }}
+                                <div class="sub-text">{{ entry['VIOLATION_TIME'] }}</div>
+                            </td>
+                            <td class="amount-cell">₹{{ entry['OFFENCE_FINE_AMOUNT'] }}</td>
+                            <td>
+                                <a href="#notice-{{ entry['NOTICE_NUMBER'] }}" class="view-btn">View</a>
+                            </td>
+                        </tr>
+                        <!-- Hidden Row for Details (Optional) or standard table flow -->
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if no_challan_message %}
+        <div class="alert success">
+            <i class="fa-solid fa-check-circle"></i> {{ no_challan_message }}
+        </div>
+        {% endif %}
+
+        <!-- Media Proofs Section -->
+        {% if media_links %}
+        <div class="media-container">
+            <h3><i class="fa-solid fa-camera"></i> Photographic Evidence</h3>
+            {% for notice_no, links in media_links.items() %}
+            <div id="notice-{{ notice_no }}" class="card proof-card">
+                <div class="proof-header">
+                    <strong>Notice No: {{ notice_no }}</strong>
+                    
+                    <!-- Find matching description for this notice -->
+                    {% for entry in challan_entries %}
+                        {% if entry['NOTICE_NUMBER'] == notice_no %}
+                            <span class="proof-desc">{{ entry['OFFENCE_DESCRIPTION'] }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="proof-links">
+                    {% for label, url in links.items() %}
+                        {% if 'http' in url %}
+                            <a href="{{ url }}" target="_blank" class="btn-outline">
+                                <i class="fa-solid fa-external-link-alt"></i> View {{ label }}
+                            </a>
+                        {% else %}
+                            <span class="badge-disabled">{{ label }} Not Available</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="footer">
+            &copy; 2026 Bengaluru Traffic Police | V-Intel System
+        </div>
+
+    </div>
+</body>
+</html>
