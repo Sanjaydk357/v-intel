@@ -35,8 +35,8 @@ Before running the project, ensure you have the following:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/yourusername/vehicle-challan-scraper.git
-    cd vehicle-challan-scraper
+    git clone [https://github.com/Sanjaydk357/v-intel.git](https://github.com/Sanjaydk357/v-intel.git)
+    cd v-intel
     ```
 
 2.  **Install dependencies:**
@@ -47,13 +47,15 @@ Before running the project, ensure you have the following:
 3.  **Project Structure:**
     Ensure your directory looks like this:
     ```text
-    /project-root
+    /V-Intel (project-root)
     │
-    ├── app.py                # Main application code
-    ├── Genai.key             # File containing your Google API Key
-    ├── cookies.json          # Exported cookies for carinfo.app
+    ├── static/                
+    │   └── styles.css        # Custom layout and design rules
     ├── templates/
     │   └── index.html        # HTML Frontend
+    ├── Genai.key             # File containing your Google API Key
+    ├── cookies.json          # Exported cookies for carinfo.app
+    ├── app.py
     └── README.md
     ```
 
