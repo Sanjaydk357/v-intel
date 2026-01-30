@@ -4,9 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>V-Intel | Traffic Enforcement Portal</title>
-    <!-- Modern Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
@@ -38,6 +36,13 @@
                 <button type="submit" class="search-btn"><i class="fa-solid fa-search"></i> Search / ಹುಡುಕಿ</button>
             </form>
         </div>
+
+        <!-- Warning / Error Display -->
+        {% if error_message %}
+        <div class="alert warning">
+            <i class="fa-solid fa-triangle-exclamation"></i> {{ error_message }}
+        </div>
+        {% endif %}
 
         <!-- Vehicle Details Grid -->
         {% if vehicle_details %}
@@ -96,7 +101,6 @@
                                 <a href="#notice-{{ entry['NOTICE_NUMBER'] }}" class="view-btn">View</a>
                             </td>
                         </tr>
-                        <!-- Hidden Row for Details (Optional) or standard table flow -->
                         {% endfor %}
                     </tbody>
                 </table>
@@ -118,8 +122,6 @@
             <div id="notice-{{ notice_no }}" class="card proof-card">
                 <div class="proof-header">
                     <strong>Notice No: {{ notice_no }}</strong>
-                    
-                    <!-- Find matching description for this notice -->
                     {% for entry in challan_entries %}
                         {% if entry['NOTICE_NUMBER'] == notice_no %}
                             <span class="proof-desc">{{ entry['OFFENCE_DESCRIPTION'] }}</span>
@@ -143,7 +145,15 @@
         {% endif %}
         
         <div class="footer">
-            &copy; 2026 Bengaluru Traffic Police | V-Intel System
+            <div>&copy; 2026 Bengaluru Traffic Police | V-Intel System</div>
+            <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">
+                Developed by <strong>Sanjay</strong>
+                <br>
+                <!-- Replace 'your-username' with your actual GitHub username -->
+                <a href="https://github.com/your-username" target="_blank" style="color: inherit; text-decoration: none; display: inline-block; margin-top: 5px; transition: 0.3s;">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+            </div>
         </div>
 
     </div>
