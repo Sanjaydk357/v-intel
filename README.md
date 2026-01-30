@@ -35,7 +35,7 @@ Before running the project, ensure you have the following:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/Sanjaydk357/v-intel.git](https://github.com/Sanjaydk357/v-intel.git)
+    git clone https://github.com/Sanjaydk357/v-intel.git
     cd v-intel
     ```
 
