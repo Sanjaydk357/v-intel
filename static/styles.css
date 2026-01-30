@@ -1,14 +1,15 @@
 :root {
     --primary: #008CBA;
-    /* Official Blue */
     --primary-dark: #007399;
     --bg-body: #f0f2f5;
-    /* Light Gray Background */
     --bg-card: #ffffff;
     --text-main: #333333;
     --text-muted: #666666;
     --border: #ddd;
     --danger: #d9534f;
+    --warning-bg: #fff3cd;
+    --warning-text: #856404;
+    --warning-border: #ffeeba;
 }
 
 * {
@@ -132,13 +133,20 @@ body {
     background: var(--primary-dark);
 }
 
-/* Vehicle Grid */
+/* Vehicle Grid - UPDATED to Strict 2 Columns */
 .details-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* This enforces exactly 2 columns */
+    grid-template-columns: 1fr 1fr; 
     gap: 1px;
     background: #eee;
-    /* Creates borders between cells */
+}
+
+/* Responsive adjustment for very small screens if needed */
+@media (max-width: 600px) {
+    .details-grid {
+        grid-template-columns: 1fr; /* Stack on mobile */
+    }
 }
 
 .detail-item {
@@ -270,16 +278,28 @@ body {
     font-size: 0.8rem;
 }
 
+/* Alerts */
 .alert {
     padding: 15px;
     border-radius: 4px;
     margin-bottom: 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .alert.success {
     background: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
+}
+
+/* NEW: Warning Alert Style */
+.alert.warning {
+    background-color: var(--warning-bg);
+    color: var(--warning-text);
+    border: 1px solid var(--warning-border);
 }
 
 .footer {
