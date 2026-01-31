@@ -14,7 +14,7 @@ from selenium.webdriver.chrome.options import Options
 app = Flask(__name__)
 
 cookie_file = "cookies.json"
-challan_cookie = "PASTE THE JSESSIONID HERE"
+challan_cookie = "JSESSIONID=c2~70A419B71462339E9DAF7368735A7FDF"
 
 dry_run = False
 
